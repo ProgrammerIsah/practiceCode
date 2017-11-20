@@ -1,0 +1,35 @@
+//https://www.codechef.com/problems/TAEDITOR
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Main{
+    public static void main(String[] args) throws IOException
+    {
+        StringBuilder sb = new StringBuilder();
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int Q = Integer.parseInt(br.readLine());
+        String[] query = new String[Q];
+        for(int i = 0; i < Q; i++){
+            query[i] = br.readLine();
+                if(query[i].charAt(0) == '+')
+                    dodati(Integer.parseInt("" + query[i].charAt(2)), query[i].substring(4), sb);
+                else if(query[i].charAt(0) == '?')
+                    ispisati(Integer.parseInt("" + query[i].charAt(2)), Integer.parseInt("" + query[i].charAt(4)), sb);
+        }
+        br.close();
+    }
+    
+    public static void dodati(int poz, String str, StringBuilder sb){
+        sb.insert(poz, str);
+    }
+    
+    public static void ispisati(int poz, int len, StringBuilder sb){
+        if((poz+len-1)> sb.length())
+            System.out.println(sb.substring(poz-1, sb.length()));
+        else
+            System.out.println(sb.substring(poz-1, poz+len-1));
+    }
+}
+

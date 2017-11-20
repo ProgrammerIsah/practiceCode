@@ -1,0 +1,85 @@
+package main;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Scanner;
+
+//https://www.codechef.com/problems/LNGHW
+
+public class Main{
+    
+    public static void main(String[] args)
+    {
+        int N, Qb, M, i, R;
+        int[] A;
+        Scanner unos = new Scanner(System.in);
+        // Unos N, Qb, M
+        while(true){
+            N = unos.nextInt();
+            Qb = unos.nextInt();
+            M = unos.nextInt();
+            if(N > 0 && N < 2*10E5 && Qb > 0 && Qb < 2*10E5 && M > 0 && M < 2*10E5)
+                break;
+        }
+        A = new int[N];
+        int b = 0;
+        //Unosi niz i provjerava da li su svi brojevi tog niza razliciti
+        for(int j = 0; j < N; j++){
+            if(j == 0)
+                A[j] = unos.nextInt();
+            else{
+                b = unos.nextInt();
+                if(provjeraNiza(A, A.length, b))
+                    A[j] = b;
+                else{
+                    System.out.println("Nisu razliciti " + b);
+                    j--;
+                }
+            }
+        }
+
+        ArrayList<Integer> temp = new ArrayList<>();
+
+        for (int d = 0; d < Qb; d++){
+            i = unos.nextInt();
+            R = unos.nextInt();
+            if(R > M)
+                d--;
+            for(int k = 0; k < N; k++)
+                if((A[k] %M) == R)
+                    temp.add(A[k]);
+            
+            Collections.sort(temp);
+            System.out.println(ispisB(temp, i, A));
+            temp.clear();
+        }
+    }     
+    
+    public static int ispisB(ArrayList<Integer> b, int i,int[] n){
+        int j = 0;
+        boolean nadjeno = false;
+        if(i > b.size())
+            return -1;
+        for(int k = 0; k < n.length; k++){
+            if(n[k] == b.get(i-1)){
+                j = k+1;
+                nadjeno = true;
+            }
+        }
+        if(!nadjeno)
+            return -1;
+        return j;
+    }
+    
+    public static boolean provjeraNiza(int[] n, int size, int broj){
+        for(int i = 0; i < size; i++)
+            if(n[i] == broj){
+                return false;
+            }
+        return true;
+    }
+}
+
+
+
+

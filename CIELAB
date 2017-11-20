@@ -1,0 +1,23 @@
+import java.util.Scanner;
+
+public class Main{
+    
+    public static void main(String[] args)
+    {
+        Scanner unos = new Scanner(System.in);
+        int A, B;
+        do{
+            A = unos.nextInt();
+            B = unos.nextInt();
+        }while( A < 0 && A > 10_000 && B > A);
+        StringBuilder sb = new StringBuilder("" + (A-B));
+        char[] c = sb.toString().toCharArray();
+        String st;
+        if(Integer.parseInt("" + c[sb.length()-1]) == 9)
+            st = "1";
+        else 
+            st = "" + (Integer.parseInt("" + c[sb.length()-1]) +1);
+        sb.replace(sb.length()-1, sb.length() , st);
+        System.out.println(sb.toString());
+    }   
+}

@@ -1,0 +1,137 @@
+//https://www.codechef.com/problems/ONCHESS
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Main{
+    
+    public static void main(String[] args) {
+        Scanner unos = new Scanner(System.in);
+        int T = unos.nextInt();  // broj test caseova
+        int N = unos.nextInt(); // broj igraca koji ce kreirati igru
+        Object[][] unosi = new Object[N][7];
+        boolean nadjeno = false;
+        Object[] temp = null;
+        for(int j = 0; j < T; j++){
+            ArrayList<Object[]> nacekanju = new ArrayList<>();
+            for(int i = 0; i < N; i++){
+                unosi[i][0] = unos.nextInt(); // R
+                unosi[i][1] = unos.nextInt(); // Min
+                unosi[i][2] = unos.nextInt(); // Max
+                unosi[i][3] = unos.nextInt(); // Time
+                unosi[i][4] = unos.next(); // Rated
+                unosi[i][5] = unos.next(); // Color
+                unosi[i][6] = i + 1;  // Index
+                if(i == 0 || nacekanju.isEmpty()){
+                    nacekanju.add(unosi[i]);
+                    System.out.println("wait");
+                }else{
+                    for(Object[] p : nacekanju){
+                        if(provjeri(unosi[i] ,p)){
+                            System.out.println(p[6]);
+                            nadjeno = true;
+                            temp = p;
+                            break;
+                        }
+                        else
+                            nadjeno = false;
+                    }//for p 
+                    if(!nadjeno){
+                        nacekanju.add(unosi[i]);
+                        System.out.println("wait");
+                    }
+                    if(nadjeno)
+                        nacekanju.remove(temp);
+                }
+            }
+            nacekanju.clear();
+        }
+        if(!nadjeno)
+            System.out.println("wait");
+    }
+    
+    public static boolean provjeri(Object[] p2, Object[] p1){
+        if(String.valueOf(p2[5]).equals("random") && String.valueOf(p1[5]).equals("random") || 
+                String.valueOf(p2[5]).equals("white") && String.valueOf(p1[5]).equals("black") || 
+                String.valueOf(p2[5]).equals("black") && String.valueOf(p1[5]).equals("white"))
+            if(String.valueOf(p2[4]).equals(String.valueOf(p2[4])))
+                if(Integer.parseInt("" + p2[3]) == Integer.parseInt("" + p1[3]))
+                    if((int)p2[2] >= (int)p1[0] && (int)p2[1] <= (int)p1[0])
+                        if((int)p1[2] >= (int)p2[0] && (int)p1[1] <= (int)p2[0])
+                            return true;
+        return false;
+    }
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+import static com.sun.corba.se.impl.util.Utility.printStackTrace;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Main{
+    
+    public static void main(String[] args) {
+        try{
+            Scanner unos = new Scanner(System.in);
+            int T = unos.nextInt();  // broj test caseova
+            int N = unos.nextInt(); // broj igraca koji ce kreirati igru
+            Object[][] unosi = new Object[N][7];
+            boolean nadjeno = false;
+            Object[] temp = null;
+            for(int j = 0; j < T; j++){
+                ArrayList<Object[]> nacekanju = new ArrayList<>();
+                ArrayList<String> ispis = new ArrayList<>();
+                for(int i = 0; i < N; i++){
+                    unosi[i][0] = unos.nextInt(); // R
+                    unosi[i][1] = unos.nextInt(); // Min
+                    unosi[i][2] = unos.nextInt(); // Max
+                    unosi[i][3] = unos.nextInt(); // Time
+                    unosi[i][4] = unos.next(); // Rated
+                    unosi[i][5] = unos.next(); // Color
+                    unosi[i][6] = i + 1;  // Index
+                    if(i == 0 || nacekanju.isEmpty()){
+                        nacekanju.add(unosi[i]);
+                        ispis.add("wait");
+                    }else{
+                        for(Object[] p : nacekanju){
+                            if(provjeri(unosi[i] ,p)){
+                                ispis.add("" + p[6]);
+                                nadjeno = true;
+                                temp = p;
+                                break;
+                            }
+                            else
+                                nadjeno = false;
+                        }//for p 
+                        if(!nadjeno){
+                            nacekanju.add(unosi[i]);
+                            ispis.add("wait");
+                        }
+                        if(nadjeno)
+                            nacekanju.remove(temp);
+                    }
+                }
+                for(String s : ispis)
+                    System.out.println(s);
+                ispis.clear();
+            }
+            if(!nadjeno)
+                System.out.println("wait");
+        }catch(RuntimeException r){
+            printStackTrace();
+        }
+    }
+    
+    public static boolean provjeri(Object[] p2, Object[] p1){
+        if(String.valueOf(p2[5]).equals("random") && String.valueOf(p1[5]).equals("random") || 
+                String.valueOf(p2[5]).equals("white") && String.valueOf(p1[5]).equals("black") || 
+                String.valueOf(p2[5]).equals("black") && String.valueOf(p1[5]).equals("white"))
+            if(String.valueOf(p2[4]).equals(String.valueOf(p2[4])))
+                if(Integer.parseInt("" + p2[3]) == Integer.parseInt("" + p1[3]))
+                    if((int)p2[2] >= (int)p1[0] && (int)p2[1] <= (int)p1[0])
+                        if((int)p1[2] >= (int)p2[0] && (int)p1[1] <= (int)p2[0])
+                            return true;
+        return false;
+    }
+}
+}

@@ -1,0 +1,95 @@
+//https://www.codechef.com/problems/ONCHESS
+
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+enum Color{ RANDOM, BLACK, WHITE};
+enum Rated{ RATED, UNRATED};
+
+public class Main{
+    public static void main(String[] args) {
+        int[] time = { 5, 15, 30, 60};
+        Scanner unos = new Scanner(System.in);
+        int T = unos.nextInt();  // broj test caseova
+        int N = unos.nextInt(); // broj igraca koji ce kreirati igru
+        ArrayList<Player> nacekanju = new ArrayList<>();
+        boolean nadjeno = false;
+        int R, Min, Max, Time;
+        Color color;
+        Rated rated;
+        Player player;
+        Player temp = new Player();
+        for(int j = 0; j < T; j++){
+            for(int i = 0; i < N; i++){
+                R = unos.nextInt();
+                Min = unos.nextInt();
+                Max = unos.nextInt();
+                Time = unos.nextInt();
+                rated = Rated.valueOf(unos.next().toUpperCase());
+                color = Color.valueOf(unos.next().toUpperCase());
+                player = new Player(R, Min, Max, Time, rated, color, i+1);
+                if(i == 0 || nacekanju.isEmpty()){
+                    nacekanju.add(player);
+                    System.out.println("wait");
+                }else{
+                    for(Player p : nacekanju){
+                        if(provjeri(player ,p)){
+                            System.out.println(p.index);
+                            nadjeno = true;
+                            temp = p;
+                            p = null;
+                            break;
+                        }
+                        else
+                            nadjeno = false;
+                    }//for p 
+                    if(!nadjeno){
+                        nacekanju.add(player);
+                        System.out.println("wait");
+                    }
+                    if(nadjeno)
+                        nacekanju.remove(temp);
+                }
+            }
+            nacekanju.clear();
+        }
+        if(!nadjeno)
+            System.out.println("wait");
+        player = null;
+        nacekanju = null;
+    }
+    
+    static class Player{
+        public int R, Min, Max;
+        public int time;
+        public Rated isRated;
+        public Color color;
+        public int index;
+        
+        public Player(){
+        }
+        
+        public Player(int R, int Min, int Max, int time, Rated isRated, Color color, int index){
+            this.R = R;
+            this.Min = Min;
+            this.Max = Max;
+            this.index = index;
+            this.time = time;
+            this.isRated = isRated;
+            this.color = color;
+        }
+    }
+    
+    public static boolean provjeri(Player p2, Player p1){
+        if(p2.color == Color.RANDOM && p1.color == Color.RANDOM || 
+                p2.color == Color.WHITE && p1.color == Color.BLACK || 
+                p2.color == Color.BLACK && p1.color == Color.WHITE)
+            if(p2.isRated == p1.isRated)
+                if(p2.time == p1.time)
+                    if(p2.Max >= p1.R && p2.Min <= p1.R)
+                        if(p1.Max >= p2.R && p1.Min <= p2.R)
+                            return true;
+        return false;
+    }
+}
